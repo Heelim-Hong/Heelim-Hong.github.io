@@ -1,0 +1,683 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>[Pytorch] DataLoader parameter별 용도 - Study Blog</title>
+<meta name="description" content="pytorch reference 문서를 다 외우면 얼마나 편할까!!">
+
+
+  <meta name="author" content="Heelim Hong">
+  
+  <meta property="article:author" content="Heelim Hong">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Study Blog">
+<meta property="og:title" content="[Pytorch] DataLoader parameter별 용도">
+<meta property="og:url" content="http://localhost:10000/ml/DataLoader-parameter/">
+
+
+  <meta property="og:description" content="pytorch reference 문서를 다 외우면 얼마나 편할까!!">
+
+
+
+  <meta property="og:image" content="https://pytorch.org/tutorials/_static/img/thumbnails/cropped/Introduction-to-TorchScript.png">
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-26T00:00:00+09:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:10000/ml/DataLoader-parameter/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Heelim Hong",
+      "url": "http://localhost:10000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Study Blog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Study Blog
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/">Quick-Start Guide</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+  
+
+
+
+
+
+
+
+<div class="page__hero--overlay"
+  style=" background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://pytorch.org/tutorials/_static/img/thumbnails/cropped/Introduction-to-TorchScript.png');"
+>
+  
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        
+          [Pytorch] DataLoader parameter별 용도
+
+        
+      </h1>
+      
+        <p class="page__lead">pytorch reference 문서를 다 외우면 얼마나 편할까!!
+</p>
+      
+      
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+      
+      
+    </div>
+  
+  
+</div>
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:10000/" itemprop="url">Heelim Hong</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>I am an <strong>amazing</strong> person.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Somewhere</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="[Pytorch] DataLoader parameter별 용도">
+    <meta itemprop="description" content="pytorch reference 문서를 다 외우면 얼마나 편할까!!">
+    <meta itemprop="datePublished" content="2022-01-26T00:00:00+09:00">
+    
+
+    <div class="page__inner-wrap">
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <p>pytorch reference 문서를 다 외우면 얼마나 편할까!!</p>
+
+<p>PyTorch는 <code class="language-plaintext highlighter-rouge">torch.utils.data.Dataset</code>으로 Custom Dataset을 만들고, <code class="language-plaintext highlighter-rouge">torch.utils.data.DataLoader</code>로 데이터를 불러옵니다.</p>
+
+<p>하지만 하다보면 데이터셋에 어떤 설정을 주고 싶고, 이를 조정하는 파라미터가 꽤 있다는 걸 알 수 있습니다.
+그래서 이번에는 torch의 <code class="language-plaintext highlighter-rouge">DataLoader</code>의 몇 가지 기능을 살펴보겠습니다.</p>
+
+<h2 id="dataloader-parameters">DataLoader Parameters</h2>
+
+<h3 id="dataset">dataset</h3>
+
+<ul>
+  <li><em><code class="language-plaintext highlighter-rouge">Dataset</code></em></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">torch.utils.data.Dataset</code>의 객체를 사용해야 합니다.</p>
+
+<p>참고로 torch의 <code class="language-plaintext highlighter-rouge">dataset</code>은 2가지 스타일이 있습니다.</p>
+
+<ul>
+  <li><strong>Map-style dataset</strong>
+    <ul>
+      <li>index가 존재하여 data[index]로 데이터를 참조할 수 있음</li>
+      <li><code class="language-plaintext highlighter-rouge">__getitem__</code>과 <code class="language-plaintext highlighter-rouge">__len__</code> 선언 필요</li>
+    </ul>
+  </li>
+  <li><strong>Iterable-style dataset</strong>
+    <ul>
+      <li>random으로 읽기에 어렵거나, data에 따라 batch size가 달라지는 데이터(dynamic batch size)에 적합</li>
+      <li>비교하자면 stream data, real-time log 등에 적합</li>
+      <li><code class="language-plaintext highlighter-rouge">__iter__</code> 선언 필요</li>
+    </ul>
+  </li>
+</ul>
+
+<p>이 점을 유의하며 아래의 파라미터 설명을 읽으면 더 이해가 쉽습니다.</p>
+
+<h3 id="batch_size">batch_size</h3>
+
+<ul>
+  <li><em><code class="language-plaintext highlighter-rouge">int</code>, optional, default=<code class="language-plaintext highlighter-rouge">1</code></em></li>
+</ul>
+
+<p><strong>배치(batch)</strong>의 크기입니다. 데이터셋에 50개의 데이터가 있고, batch_size가 10라면 총 50/10=5, 즉 5번의 iteration만 지나면 모든 데이터를 볼 수 있습니다.</p>
+
+<p>이 경우 반복문을 돌리면 <code class="language-plaintext highlighter-rouge">(batch_size, *(data.shape))</code>의 형태의 <code class="language-plaintext highlighter-rouge">Tensor</code>로 데이터가 반환됩니다. dataset에서 return하는 모든 데이터는 Tensor로 변환되어 오니 Tensor로 변환이 안되는 데이터는 에러가 납니다.</p>
+
+<h3 id="shuffle">shuffle</h3>
+
+<ul>
+  <li><em><code class="language-plaintext highlighter-rouge">bool</code>, optional, default=<code class="language-plaintext highlighter-rouge">False</code></em></li>
+</ul>
+
+<p>데이터를 DataLoader에서 섞어서 사용하겠는지를 설정할 수 있습니다.
+실험 재현을 위해 <code class="language-plaintext highlighter-rouge">torch.manual_seed</code>를 고정하는 것도 포인트입니다.</p>
+
+<blockquote>
+  <p>그냥 Dataset에서 initialize할 때, random.shuffle로 섞을 수도 있습니다.</p>
+</blockquote>
+
+<h3 id="sampler">sampler</h3>
+
+<ul>
+  <li><em><code class="language-plaintext highlighter-rouge">Sampler</code>, optional</em></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">torch.utils.data.Sampler</code> 객체를 사용합니다.</p>
+
+<p>sampler는 index를 컨트롤하는 방법입니다. 데이터의 index를 원하는 방식대로 조정합니다.
+즉 index를 컨트롤하기 때문에 설정하고 싶다면 <code class="language-plaintext highlighter-rouge">shuffle</code> 파라미터는 <code class="language-plaintext highlighter-rouge">False</code>(기본값)여야 합니다.</p>
+
+<p>map-style에서 컨트롤하기 위해 사용하며 <code class="language-plaintext highlighter-rouge">__len__</code>과 <code class="language-plaintext highlighter-rouge">__iter__</code>를 구현하면 됩니다.
+그 외의 미리 선언된 Sampler는 다음과 같습니다.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">SequentialSampler</code> : 항상 같은 순서</li>
+  <li><code class="language-plaintext highlighter-rouge">RandomSampler</code> : 랜덤, replacemetn 여부 선택 가능, 개수 선택 가능</li>
+  <li><code class="language-plaintext highlighter-rouge">SubsetRandomSampler</code> : 랜덤 리스트, 위와 두 조건 불가능</li>
+  <li><code class="language-plaintext highlighter-rouge">WeigthRandomSampler</code> : 가중치에 따른 확률</li>
+  <li><code class="language-plaintext highlighter-rouge">BatchSampler</code> : batch단위로 sampling 가능</li>
+  <li><code class="language-plaintext highlighter-rouge">DistributedSampler</code> : 분산처리 (<code class="language-plaintext highlighter-rouge">torch.nn.parallel.DistributedDataParallel</code>과 함께 사용)</li>
+</ul>
+
+<h3 id="batch_sampler">batch_sampler</h3>
+
+<ul>
+  <li><em><code class="language-plaintext highlighter-rouge">Sampler</code>, optional</em></li>
+</ul>
+
+<p>위와 거의 동일하므로 생략합니다.</p>
+
+<h3 id="num_workers">num_workers</h3>
+
+<ul>
+  <li><em><code class="language-plaintext highlighter-rouge">int</code>, optional, default=<code class="language-plaintext highlighter-rouge">0</code></em></li>
+</ul>
+
+<p>데이터 로딩에 사용하는 subprocess개수입니다. (멀티프로세싱)</p>
+
+<p>기본값이 0인데 이는 data가 main process로 불러오는 것을 의미합니다.
+그럼 많이 사용하면 좋지 않은가? 라고 질문하실 수도 있습니다.</p>
+
+<p>하지만 데이터를 불러 CPU와 GPU 사이에서 많은 교류가 일어나면 오히려 병목이 생길 수 있습니다.
+이것도 trade-off관계인데, 이와 관련하여는 다음 글을 추천합니다.</p>
+
+<ul>
+  <li><a href="https://jybaek.tistory.com/799">DataLoader num_workers에 대한 고찰</a></li>
+</ul>
+
+<h3 id="collate_fn">collate_fn</h3>
+
+<ul>
+  <li><em>callable, optional</em></li>
+</ul>
+
+<p>map-style 데이터셋에서 sample list를 batch 단위로 바꾸기 위해 필요한 기능입니다.
+zero-padding이나 Variable Size 데이터 등 데이터 사이즈를 맞추기 위해 많이 사용합니다.</p>
+
+<h3 id="pin_memory">pin_memory</h3>
+
+<ul>
+  <li><em><code class="language-plaintext highlighter-rouge">bool</code>, optional</em></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">True</code>러 선언하면, 데이터로더는 Tensor를 CUDA 고정 메모리에 올립니다.</p>
+
+<p>어떤 상황에서 더 빨라질지는 다음 글을 참고합시다.</p>
+
+<ul>
+  <li>discuss.Pytorch : <a href="https://discuss.pytorch.org/t/when-to-set-pin-memory-to-true/19723">When to set pin_memory to true?</a></li>
+</ul>
+
+<h3 id="drop_last">drop_last</h3>
+
+<ul>
+  <li><em><code class="language-plaintext highlighter-rouge">bool</code>, optional</em></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">batch</code> 단위로 데이터를 불러온다면, batch_size에 따라 마지막 batch의 길이가 달라질 수 있습니다.
+예를 들어 data의 개수는 27개인데, batch_size가 5라면 마지막 batch의 크기는 2가 되겠죠.</p>
+
+<p>batch의 길이가 다른 경우에 따라 loss를 구하기 귀찮은 경우가 생기고, batch의 크기에 따른 의존도 높은 함수를 사용할 때 걱정이 되는 경우 마지막 batch를 사용하지 않을 수 있습니다.</p>
+
+<h3 id="time_out">time_out</h3>
+
+<ul>
+  <li><em>numeric, optional, default=<code class="language-plaintext highlighter-rouge">0</code></em></li>
+</ul>
+
+<p>양수로 주어지는 경우, DataLoader가 data를 불러오는데 제한시간입니다.</p>
+
+<h3 id="worker_init_fn">worker_init_fn</h3>
+
+<ul>
+  <li><em>callable, optional, default=’None’</em></li>
+</ul>
+
+<p>num_worker가 개수라면, 이 파라미터는 어떤 worker를 불러올 것인가를 리스트로 전달합니다.</p>
+
+<blockquote>
+  <p>아래 2개는 언제 사용하는걸까요?</p>
+</blockquote>
+
+<h2 id="reference">Reference</h2>
+
+<ul>
+  <li>
+    <p>official : <a href="https://pytorch.org/docs/stable/data.html">torch.utils.data</a></p>
+  </li>
+  <li>
+    <p>Hulk의 개인 공부용 블로그 : <a href="https://hulk89.github.io/pytorch/2019/09/30/pytorch_dataset/">pytorch dataset 정리</a> : 핵심적인 함수의 사용법들과 커스텀 클래스 선언이 궁금하신 분들에게 추천합니다.</p>
+  </li>
+</ul>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#collate-fn" class="page__taxonomy-item p-category" rel="tag">collate_fn</a><span class="sep">, </span>
+    
+      <a href="/tags/#dataloader" class="page__taxonomy-item p-category" rel="tag">dataloader</a><span class="sep">, </span>
+    
+      <a href="/tags/#num-workers" class="page__taxonomy-item p-category" rel="tag">num_workers</a><span class="sep">, </span>
+    
+      <a href="/tags/#parameter" class="page__taxonomy-item p-category" rel="tag">parameter</a><span class="sep">, </span>
+    
+      <a href="/tags/#pin-memory" class="page__taxonomy-item p-category" rel="tag">pin_memory</a><span class="sep">, </span>
+    
+      <a href="/tags/#pytorch" class="page__taxonomy-item p-category" rel="tag">pytorch</a><span class="sep">, </span>
+    
+      <a href="/tags/#sampler" class="page__taxonomy-item p-category" rel="tag">sampler</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#ml" class="page__taxonomy-item p-category" rel="tag">ML</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-26T00:00:00+09:00">January 26, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%5BPytorch%5D+DataLoader+parameter%EB%B3%84+%EC%9A%A9%EB%8F%84%20http%3A%2F%2Flocalhost%3A10000%2Fml%2FDataLoader-parameter%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A10000%2Fml%2FDataLoader-parameter%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A10000%2Fml%2FDataLoader-parameter%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="#" class="pagination--pager disabled">Previous</a>
+    
+    
+      <a href="/blog/my-first-post/" class="pagination--pager" title="[Jekyll] 블로그 포스팅하는 방법
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/my-first-post/" rel="permalink">[Jekyll] 블로그 포스팅하는 방법
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Jekyll로 깃허브 블로그를 만들어 보았다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 Heelim Hong. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
