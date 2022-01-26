@@ -25,6 +25,10 @@ PyTorch는 `torch.utils.data.Dataset`으로 Custom Dataset을 만들고, `torch.
 하지만 하다보면 데이터셋에 어떤 설정을 주고 싶고, 이를 조정하는 파라미터가 꽤 있다는 걸 알 수 있습니다.
 그래서 이번에는 torch의 `DataLoader`의 몇 가지 기능을 살펴보겠습니다.
 
+## Overview
+
+![pytorch_dataloader](/_resources/pytorch_dataloader.png)
+
 ## DataLoader Parameters
 
 ### dataset
