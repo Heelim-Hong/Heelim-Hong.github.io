@@ -41,6 +41,7 @@ PyTorch는 `torch.utils.data.Dataset`으로 Custom Dataset을 만들고, `torch.
 
 - **Map-style dataset**
   - index가 존재하여 data[index]로 데이터를 참조할 수 있음
+  - For example, such a dataset, when accessed with dataset[idx], could read the idx-th image and its corresponding label from a folder on the disk.
   - `__getitem__`과 `__len__` 선언 필요
 - **Iterable-style dataset**
   - random으로 읽기에 어렵거나, data에 따라 batch size가 달라지는 데이터(dynamic batch size)에 적합
@@ -72,6 +73,19 @@ PyTorch는 `torch.utils.data.Dataset`으로 Custom Dataset을 만들고, `torch.
 
 `torch.utils.data.Sampler` 객체를 사용합니다.
 
+dataset은 inex로 data를 가져오도록 설계되었기 때문에, shuffle을 하기 위해서 index를 적절히 섞어 주면 된다. 그 것을 구현한 것이 `Sampler`이다.
+- 매 step 마다 다음 index를 yield하면 됨.
+  - `__len__`과 `__iter__`를 구현하면 된다.
+
+```python
+point_sampler = RandomSampler(map_dataset)
+dataloader = torch.utils.data.DataLoader(map_dataset,
+                                         batch_size=4,
+                                         sampler=point_sampler)
+for data in dataloader:
+    print(data['input'].shape, data['label'])
+```
+
 sampler는 index를 컨트롤하는 방법입니다. 데이터의 index를 원하는 방식대로 조정합니다.
 즉 index를 컨트롤하기 때문에 설정하고 싶다면 `shuffle` 파라미터는 `False`(기본값)여야 합니다.
 
@@ -86,6 +100,8 @@ map-style에서 컨트롤하기 위해 사용하며 `__len__`과 `__iter__`를 �
 - `DistributedSampler` : 분산처리 (`torch.nn.parallel.DistributedDataParallel`과 함께 사용)
 
 ### batch_sampler
+batch 단위로 sampling할 때 쓴다.
+- 매 step마다 `index의 list`를 반환하면 batch_sampler로 쓸 수 있음
 
 - *`Sampler`, optional*
 
@@ -106,7 +122,10 @@ map-style에서 컨트롤하기 위해 사용하며 `__len__`과 `__iter__`를 �
 - [DataLoader num_workers에 대한 고찰](https://jybaek.tistory.com/799)
 
 ### collate_fn
+batch_sampler로 묶이 이후에는, collate_fn을 호출해서 batch로 묶는다.
+- `collate_fn([dataset[i] for i in indices])`
 
+dataset이 variable length면 바로 못 묶이고 에러가 나므로, `collate_fn`을 만들어서 넘겨줘야 함.
 - *callable, optional*
 
 map-style 데이터셋에서 sample list를 batch 단위로 바꾸기 위해 필요한 기능입니다.
