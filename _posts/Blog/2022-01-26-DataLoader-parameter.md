@@ -211,8 +211,7 @@ from. PyTorch supports two different types of datasets:
 
 * `iterable-style datasets <Iterable-style datasets_>`_.
 
-Map-style datasets
-^^^^^^^^^^^^^^^^^^
+#### Map-style datasets
 
 A map-style dataset is one that implements the :meth:`__getitem__` and
 :meth:`__len__` protocols, and represents a map from (possibly non-integral)
@@ -223,8 +222,8 @@ the ``idx``-th image and its corresponding label from a folder on the disk.
 
 See :class:`~torch.utils.data.Dataset` for more details.
 
-Iterable-style datasets
-^^^^^^^^^^^^^^^^^^^^^^^
+#### Iterable-style datasets
+
 
 An iterable-style dataset is an instance of a subclass of :class:`~torch.utils.data.IterableDataset`
 that implements the :meth:`__iter__` protocol, and represents an iterable over
