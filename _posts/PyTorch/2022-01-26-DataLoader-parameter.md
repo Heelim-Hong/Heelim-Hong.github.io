@@ -141,6 +141,16 @@ zero-padding이나 Variable Size 데이터 등 데이터 사이즈를 맞추기 
 
 - discuss.Pytorch : [When to set pin_memory to true?](https://discuss.pytorch.org/t/when-to-set-pin-memory-to-true/19723)
 
+데이터를 CPU로 읽어들인 다음 GPU로 보내기 위해서는 GPU와 통신하기 위한 CPU의 메모리 공간이 필요하다. 이 때, 메모리를 할당시키는 기법을 memory pinning이라고 한다. memory pinning을 하는 데 사용되는 메모리의 종류는 pageable memory와 pinned memory가 있는데 pinned memory가 더 빠르다고 한다.
+
+(pinned memory : Virtual memory를 사용하지 않는 Memory Mapped memory)
+
+![img](https://blog.kakaocdn.net/dn/dqz8qQ/btq2QUi1I8I/pV0JJaVEmXFtQQT8Nrbsck/img.png)
+
+즉, pinned memory는 위에 그림처럼 GPU에서 호스트에서 디바이스로 전송을 위한 staging area이고 pinned data transfer는 pinned memory와 pageable memory의 전송 비용을 줄이기 위해 데이터를 pin memory에 고정시켜 전송하는 방법이다.
+
+우리가 pin_memory = True로 하게된다면 입력 데이터를 바로 pinned memory에 로드하여 빠르게 데이터 복사를 해 CUDA 연산을 효율적으로 할 수 있게 해준다. ==따라서 시스템 메모리가 넉넉하다면 pin_memory = True로 하고 학습을 수행한다면 병목을 개선시킬 수 있다.==
+
 ### drop_last
 
 - *`bool`, optional*
