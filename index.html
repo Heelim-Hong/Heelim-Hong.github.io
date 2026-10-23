@@ -8,10 +8,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.4/css/academicons.min.css">
 <style>
 /* Layout: single 860px column. Header (monogram + bio + links) → Publications (flat cards: title, authors, venue, problem→idea→result summary, links) → Education/Awards two-up timeline. */
 :root{
-  --bg:#f5f6f7; --surface:#ffffff; --surface-rule:#e3e6ea; --fg:#1c2026; --muted:#5d6672; --rule:#dde1e6;
+  --bg:#f3f4f6; --surface:#ffffff; --surface-rule:#e3e6ea; --fg:#1c2026; --muted:#5d6672; --rule:#dde1e6;
   --accent:#8b1e2d; --accent-rule:#e2c2c7;
   --badge-bg:#e4e8ee; --badge-fg:#3a4453;
   --btn-bg:#f3f4f6; --btn-fg:#4e5866; --btn-rule:#d8dde3;
@@ -42,19 +44,24 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .mono{font-family:var(--f-mono)}
 
 /* Header */
-.intro{display:grid;grid-template-columns:132px 1fr;gap:32px;align-items:start}
-.avatar{width:132px;aspect-ratio:1;max-width:100%;border-radius:12px;background:var(--badge-bg);
+.intro{display:grid;grid-template-columns:190px 1fr;gap:36px;align-items:start}
+.avatar{width:190px;aspect-ratio:1;max-width:100%;border-radius:12px;background:var(--badge-bg);
   display:grid;place-items:center;color:var(--badge-fg);font:600 40px/1 var(--f-display);letter-spacing:.02em;overflow:hidden}
 .avatar img{width:100%;height:100%;object-fit:cover}
 .intro-text{min-width:0;display:flex;flex-direction:column;gap:14px}
 h1{font-family:var(--f-display);font-size:2.3rem;font-weight:600;letter-spacing:-.015em;line-height:1.1}
 .role{color:var(--muted);font-size:.98rem;line-height:1.5}
 .role b{color:var(--fg);font-weight:600}
-.advisor{display:flex;align-items:baseline;gap:10px;font-size:.94rem;margin-top:-4px}
-.advisor .lbl{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.bio{margin:0;max-width:64ch}
-.links{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.92rem;padding-top:2px}
-.links .email{font-family:var(--f-mono);font-size:.86rem;color:var(--fg);user-select:all}
+.advisor{font-size:.92rem}
+.advisor a{color:var(--muted);border-bottom-color:var(--rule)}
+.advisor a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.bio{margin:0}
+.side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.links{display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-size:.9rem}
+.links a,.links .email{display:inline-flex;align-items:center;gap:8px;line-height:1.4}
+.links i{width:16px;text-align:center;font-size:.95rem;flex:none;color:var(--muted)}
+.links a:hover i{color:var(--accent)}
+.links .email{font-family:var(--f-mono);font-size:.8rem;color:var(--fg);user-select:all;margin-bottom:2px}
 .links a.todo{color:var(--muted);border-bottom-style:dashed;border-bottom-color:var(--rule)}
 
 /* Section heads */
@@ -80,7 +87,15 @@ section{display:flex;flex-direction:column;gap:20px}
 .venue{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.88rem;color:var(--muted)}
 .badge{font-family:var(--f-mono);font-size:.74rem;font-weight:500;color:var(--badge-fg);background:var(--badge-bg);
   padding:2px 8px;border-radius:4px;letter-spacing:.02em;white-space:nowrap}
-.takeaway{margin:4px 0 0;font-size:.93rem;line-height:1.55}
+.more{margin-top:6px}
+.more summary{display:inline-flex;align-items:center;gap:6px;cursor:pointer;list-style:none;font-family:var(--f-mono);font-size:.76rem;color:var(--muted);user-select:none}
+.more summary::-webkit-details-marker{display:none}
+.more summary::before{content:"";width:0;height:0;border-left:5px solid currentColor;border-top:3.5px solid transparent;border-bottom:3.5px solid transparent;transition:transform .15s}
+.more[open] summary::before{transform:rotate(90deg)}
+.more summary:hover{color:var(--accent)}
+.more summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+.more p{margin:8px 0 0;font-size:.93rem;line-height:1.55}
+@media (prefers-reduced-motion:reduce){.more summary::before{transition:none}}
 .p-links{display:flex;flex-wrap:wrap;gap:8px;padding-top:8px}
 .p-links a{font-family:var(--f-mono);font-size:.76rem;padding:3px 10px;border-radius:3px;color:var(--btn-fg);background:var(--btn-bg);border:1px solid var(--btn-rule)}
 .p-links a:hover{color:var(--accent);border-color:var(--accent)}
@@ -102,7 +117,9 @@ footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);paddi
 @media (max-width:680px){
   .wrap{padding-block:32px 28px;gap:44px}
   .intro{grid-template-columns:1fr;gap:18px}
-  .avatar{width:96px;font-size:30px}
+  .avatar{width:130px;font-size:30px}
+  .side{flex-direction:row;align-items:flex-end;gap:18px}
+  .links{gap:3px}
   h1{font-size:1.75rem}
   .paper{padding:14px}
   .two{grid-template-columns:1fr}
@@ -119,28 +136,29 @@ footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);paddi
 
 <!-- ───────── Header ───────── -->
 <header class="intro">
-  <!-- Replace the initials with your photo: <img src="images/profile.jpg" alt="Heelim Hong"> -->
-  <div class="avatar" aria-hidden="true">HH</div>
+  <div class="side">
+    <div class="avatar"><img src="images/profile.jpg" alt="Heelim Hong"></div>
+    <div class="links">
+      <!-- Icons: Font Awesome 6 (fa-*) and Academicons (ai-*). TODO: replace # with real URLs; dashed = placeholder -->
+      <span class="email"><i class="fa-regular fa-envelope" aria-hidden="true"></i>heelim@unist.ac.kr</span>
+      <a class="todo" href="#"><i class="ai ai-cv" aria-hidden="true"></i>CV</a>
+      <a class="todo" href="#"><i class="ai ai-google-scholar" aria-hidden="true"></i>Google Scholar</a>
+      <a href="https://github.com/Heelim-Hong"><i class="fa-brands fa-github" aria-hidden="true"></i>GitHub</a>
+      <a class="todo" href="#"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
+    </div>
+  </div>
   <div class="intro-text">
     <h1>Heelim Hong</h1>
     <div class="role">
       <b>Ph.D. Candidate</b>, Graduate School of Artificial Intelligence<br>
-      Ulsan National Institute of Science and Technology (UNIST)
+      Ulsan National Institute of Science and Technology (UNIST)<br>
+      <span class="advisor">Advisor: <a href="https://sites.google.com/site/myeongjae/">Prof. Myeongjae Jeon</a></span>
     </div>
-    <div class="advisor"><span class="lbl">Advisor</span><a href="https://sites.google.com/site/myeongjae/">Prof. Myeongjae Jeon</a></div>
     <p class="bio">
       My research is in <b>machine learning systems</b>. I design systems that adapt how compute and memory are allocated at runtime,
       so that AI workloads meet their performance goals at lower cost. My work so far has focused on <b>LLM serving</b>,
       and I am now extending it to <b>compound AI systems</b>, where many model and tool calls must be optimized end to end.
     </p>
-    <div class="links">
-      <span class="email">heelim@unist.ac.kr</span>
-      <!-- TODO: fill in real URLs; the dashed links are placeholders -->
-      <a class="todo" href="#">CV</a>
-      <a class="todo" href="#">Google Scholar</a>
-      <a class="todo" href="#">GitHub</a>
-      <a class="todo" href="#">LinkedIn</a>
-    </div>
   </div>
 </header>
 
@@ -163,8 +181,8 @@ footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);paddi
         <div class="p-title"><a href="https://doi.org/10.14778/3796195.3796214">ORBITFLOW: SLO-Aware Long-Context LLM Serving with Fine-Grained KV Cache Reconfiguration</a></div>
         <div class="authors">Xinyue Ma*, <b>Heelim Hong*</b>, Taegeon Um, Jongseop Lee, Seoyeong Choy, Woo-Yeon Lee, Myeongjae Jeon</div>
         <div class="venue"><span class="badge">VLDB '26</span><span>Proceedings of the VLDB Endowment, Vol. 19, No. 5</span><span class="note">* equal contribution</span></div>
-        <p class="takeaway">In long-context serving, the KV cache grows with every generated token and the batch keeps changing, so offloading plans fixed ahead of time cannot keep up with GPU memory demand. ORBITFLOW re-plans KV cache placement per request and per layer with a lightweight ILP solver and runtime feedback, raising SLO attainment for TPOT and TBT by up to 66% and 48% and throughput by up to 3.3× over existing offloading methods.</p>
         <div class="p-links"><a href="https://doi.org/10.14778/3796195.3796214">Paper</a><a href="https://github.com/omnia-postech/OrbitFlow">Code</a></div>
+        <details class="more"><summary>Summary</summary><p>In long-context serving, the KV cache grows with every generated token and the batch keeps changing, so offloading plans fixed ahead of time cannot keep up with GPU memory demand. ORBITFLOW re-plans KV cache placement per request and per layer with a lightweight ILP solver and runtime feedback, raising SLO attainment for TPOT and TBT by up to 66% and 48% and throughput by up to 3.3× over existing offloading methods.</p></details>
       </div>
     </article>
 
@@ -173,8 +191,8 @@ footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);paddi
         <div class="p-title"><a href="https://www.vldb.org/pvldb/vol17/p863-kim.pdf">FusionFlow: Accelerating Data Preprocessing for Machine Learning with CPU-GPU Cooperation</a></div>
         <div class="authors">Taeyoon Kim, ChanHo Park, Mansur Mukimbekov, <b>Heelim Hong</b>, Minseok Kim, Ze Jin, Changdae Kim, Ji-Yong Shin, Myeongjae Jeon</div>
         <div class="venue"><span class="badge">VLDB '24</span><span>Proceedings of the VLDB Endowment, Vol. 17, No. 4</span></div>
-        <p class="takeaway">Modern data augmentation is expensive enough that CPU-side preprocessing, not the GPU, becomes the training bottleneck. FusionFlow offloads part of each batch's augmentation onto idle GPU cycles without disturbing training, speeding up single-machine training by 16–285% over CPU-only preprocessing with 50–60% fewer CPUs than scaling out.</p>
         <div class="p-links"><a href="https://www.vldb.org/pvldb/vol17/p863-kim.pdf">Paper</a><a href="https://github.com/omnia-unist/FusionFlow">Code</a></div>
+        <details class="more"><summary>Summary</summary><p>Modern data augmentation is expensive enough that CPU-side preprocessing, not the GPU, becomes the training bottleneck. FusionFlow offloads part of each batch's augmentation onto idle GPU cycles without disturbing training, speeding up single-machine training by 16–285% over CPU-only preprocessing with 50–60% fewer CPUs than scaling out.</p></details>
       </div>
     </article>
   </div>
