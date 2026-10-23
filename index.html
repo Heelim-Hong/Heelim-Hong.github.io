@@ -103,6 +103,7 @@ section{display:flex;flex-direction:column;gap:20px}
 .p-links a{font-family:var(--f-mono);font-size:.76rem;padding:3px 10px;border-radius:3px;color:var(--btn-fg);background:var(--btn-bg);border:1px solid var(--btn-rule)}
 .p-links a:hover{color:var(--accent);border-color:var(--accent)}
 .note{font-size:.8rem;color:var(--muted)}
+.nowrap{white-space:nowrap}
 
 /* Timeline blocks */
 .two{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:dense;gap:40px 48px}
@@ -186,7 +187,7 @@ footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);paddi
       <div class="p-body">
         <div class="p-title"><a href="https://doi.org/10.14778/3796195.3796214">ORBITFLOW: SLO-Aware Long-Context LLM Serving with Fine-Grained KV Cache Reconfiguration</a></div>
         <div class="authors">Xinyue Ma*, <b>Heelim Hong*</b>, Taegeon Um, Jongseop Lee, Seoyeong Choy, Woo-Yeon Lee, Myeongjae Jeon</div>
-        <div class="venue"><span class="badge">VLDB '26</span><span>Proceedings of the VLDB Endowment, Vol. 19, No. 5</span><span class="note">* equal contribution</span></div>
+        <div class="venue"><span class="badge">VLDB '26</span><span>PVLDB, <span class="nowrap">Vol. 19, No. 5</span></span><span class="note">* equal contribution</span></div>
         <div class="p-links"><a href="https://doi.org/10.14778/3796195.3796214">Paper</a><a href="https://github.com/omnia-postech/OrbitFlow">Code</a></div>
         <details class="more"><summary>Summary</summary><p>In long-context serving, the KV cache grows with every generated token and the batch keeps changing, so offloading plans fixed ahead of time cannot keep up with GPU memory demand. ORBITFLOW re-plans KV cache placement per request and per layer with a lightweight ILP solver and runtime feedback, raising SLO attainment for TPOT and TBT by up to 66% and 48% and throughput by up to 3.3× over existing offloading methods.</p></details>
       </div>
@@ -196,7 +197,7 @@ footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);paddi
       <div class="p-body">
         <div class="p-title"><a href="https://www.vldb.org/pvldb/vol17/p863-kim.pdf">FusionFlow: Accelerating Data Preprocessing for Machine Learning with CPU-GPU Cooperation</a></div>
         <div class="authors">Taeyoon Kim, ChanHo Park, Mansur Mukimbekov, <b>Heelim Hong</b>, Minseok Kim, Ze Jin, Changdae Kim, Ji-Yong Shin, Myeongjae Jeon</div>
-        <div class="venue"><span class="badge">VLDB '24</span><span>Proceedings of the VLDB Endowment, Vol. 17, No. 4</span></div>
+        <div class="venue"><span class="badge">VLDB '24</span><span>PVLDB, <span class="nowrap">Vol. 17, No. 4</span></span></div>
         <div class="p-links"><a href="https://www.vldb.org/pvldb/vol17/p863-kim.pdf">Paper</a><a href="https://github.com/omnia-unist/FusionFlow">Code</a></div>
         <details class="more"><summary>Summary</summary><p>Modern data augmentation is expensive enough that CPU-side preprocessing, not the GPU, becomes the training bottleneck. FusionFlow offloads part of each batch's augmentation onto idle GPU cycles without disturbing training, speeding up single-machine training by 16–285% over CPU-only preprocessing with 50–60% fewer CPUs than scaling out.</p></details>
       </div>
