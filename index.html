@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Heelim Hong</title>
+<meta name="description" content="Heelim Hong — Ph.D. candidate at UNIST working on systems for LLM serving and ML pipelines.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single 860px column. Header (monogram + bio + links) → Publications (flat cards: title, authors, venue, problem→idea→result summary, links) → Education/Awards two-up timeline. */
+:root{
+  --bg:#f5f6f7; --surface:#ffffff; --surface-rule:#e3e6ea; --fg:#1c2026; --muted:#5d6672; --rule:#dde1e6;
+  --accent:#8b1e2d; --accent-rule:#e2c2c7;
+  --badge-bg:#e4e8ee; --badge-fg:#3a4453;
+  --btn-bg:#f3f4f6; --btn-fg:#4e5866; --btn-rule:#d8dde3;
+  --f-display:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-sans:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15181c; --surface:#1c2026; --surface-rule:#2a3039; --fg:#e4e7eb; --muted:#98a2ae; --rule:#2a3039;
+  --accent:#e08a96; --accent-rule:#5a2a32;
+  --badge-bg:#262c35; --badge-fg:#aeb7c3;
+  --btn-bg:#20252c; --btn-fg:#98a2ae; --btn-rule:#343b45; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15181c; --surface:#1c2026; --surface-rule:#2a3039; --fg:#e4e7eb; --muted:#98a2ae; --rule:#2a3039;
+  --accent:#e08a96; --accent-rule:#5a2a32;
+  --badge-bg:#262c35; --badge-fg:#aeb7c3;
+  --btn-bg:#20252c; --btn-fg:#98a2ae; --btn-rule:#343b45; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-sans);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding-block:56px 40px;display:flex;flex-direction:column;gap:56px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-rule);transition:border-color .15s}
+a:hover{border-bottom-color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+h1,h2,h3{text-wrap:balance;margin:0}
+.mono{font-family:var(--f-mono)}
+
+/* Header */
+.intro{display:grid;grid-template-columns:132px 1fr;gap:32px;align-items:start}
+.avatar{width:132px;aspect-ratio:1;max-width:100%;border-radius:12px;background:var(--badge-bg);
+  display:grid;place-items:center;color:var(--badge-fg);font:600 40px/1 var(--f-display);letter-spacing:.02em;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.intro-text{min-width:0;display:flex;flex-direction:column;gap:14px}
+h1{font-family:var(--f-display);font-size:2.3rem;font-weight:600;letter-spacing:-.015em;line-height:1.1}
+.role{color:var(--muted);font-size:.98rem;line-height:1.5}
+.role b{color:var(--fg);font-weight:600}
+.advisor{display:flex;align-items:baseline;gap:10px;font-size:.94rem;margin-top:-4px}
+.advisor .lbl{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.bio{margin:0;max-width:64ch}
+.links{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.92rem;padding-top:2px}
+.links .email{font-family:var(--f-mono);font-size:.86rem;color:var(--fg);user-select:all}
+.links a.todo{color:var(--muted);border-bottom-style:dashed;border-bottom-color:var(--rule)}
+
+/* Section heads */
+section{display:flex;flex-direction:column;gap:20px}
+.sec-h{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--rule);padding-bottom:8px}
+.sec-h h2{font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
+
+/* News */
+.news{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.news li{display:grid;grid-template-columns:84px 1fr;gap:16px}
+.news time{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.news span{min-width:0}
+
+/* Publications */
+.pubs{display:flex;flex-direction:column;gap:16px}
+.paper{padding:18px 20px;border-radius:8px;background:var(--surface);border:1px solid var(--surface-rule)}
+.p-body{min-width:0;display:flex;flex-direction:column;gap:6px}
+.p-title{font-weight:600;font-size:1rem;line-height:1.4;color:var(--fg)}
+.p-title a{color:inherit;border-bottom:1px solid transparent}
+.p-title a:hover{border-bottom-color:var(--fg)}
+.authors{font-size:.9rem;color:var(--muted);line-height:1.5}
+.authors b{color:var(--fg);font-weight:600}
+.venue{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:.88rem;color:var(--muted)}
+.badge{font-family:var(--f-mono);font-size:.74rem;font-weight:500;color:var(--badge-fg);background:var(--badge-bg);
+  padding:2px 8px;border-radius:4px;letter-spacing:.02em;white-space:nowrap}
+.takeaway{margin:4px 0 0;font-size:.93rem;line-height:1.55}
+.p-links{display:flex;flex-wrap:wrap;gap:8px;padding-top:8px}
+.p-links a{font-family:var(--f-mono);font-size:.76rem;padding:3px 10px;border-radius:3px;color:var(--btn-fg);background:var(--btn-bg);border:1px solid var(--btn-rule)}
+.p-links a:hover{color:var(--accent);border-color:var(--accent)}
+.note{font-size:.8rem;color:var(--muted)}
+
+/* Timeline blocks */
+.two{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:dense;gap:40px 48px}
+.two > section{min-width:0}
+.two > .col-r{grid-column:2;grid-row:1 / span 2}
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.tl li{display:grid;grid-template-columns:96px 1fr;gap:14px}
+.tl .yr{font-family:var(--f-mono);font-size:.8rem;color:var(--muted);padding-top:3px;font-variant-numeric:tabular-nums}
+.tl .what{min-width:0;font-size:.94rem;line-height:1.5}
+.tl .what b{font-weight:600}
+.tl .what small{display:block;color:var(--muted);font-size:.86rem}
+
+footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);padding-top:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media (max-width:680px){
+  .wrap{padding-block:32px 28px;gap:44px}
+  .intro{grid-template-columns:1fr;gap:18px}
+  .avatar{width:96px;font-size:30px}
+  h1{font-size:1.75rem}
+  .paper{padding:14px}
+  .two{grid-template-columns:1fr}
+  .two > .col-r{grid-column:auto;grid-row:auto}
+  .news li{grid-template-columns:72px 1fr;gap:12px}
+  .tl li{grid-template-columns:84px 1fr}
+}
+@media (prefers-reduced-motion:reduce){a{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<!-- ───────── Header ───────── -->
+<header class="intro">
+  <!-- Replace the initials with your photo: <img src="images/profile.jpg" alt="Heelim Hong"> -->
+  <div class="avatar" aria-hidden="true">HH</div>
+  <div class="intro-text">
+    <h1>Heelim Hong</h1>
+    <div class="role">
+      <b>Ph.D. Candidate</b>, Graduate School of Artificial Intelligence<br>
+      Ulsan National Institute of Science and Technology (UNIST)
+    </div>
+    <div class="advisor"><span class="lbl">Advisor</span><a href="https://sites.google.com/site/myeongjae/">Prof. Myeongjae Jeon</a></div>
+    <p class="bio">
+      My research is in <b>machine learning systems</b>. I design systems that adapt how compute and memory are allocated at runtime,
+      so that AI workloads meet their performance goals at lower cost. My work so far has focused on <b>LLM serving</b>,
+      and I am now extending it to <b>compound AI systems</b>, where many model and tool calls must be optimized end to end.
+    </p>
+    <div class="links">
+      <span class="email">heelim@unist.ac.kr</span>
+      <!-- TODO: fill in real URLs; the dashed links are placeholders -->
+      <a class="todo" href="#">CV</a>
+      <a class="todo" href="#">Google Scholar</a>
+      <a class="todo" href="#">GitHub</a>
+      <a class="todo" href="#">LinkedIn</a>
+    </div>
+  </div>
+</header>
+
+<!-- News section removed for now. To add one back, insert before Research:
+<section aria-labelledby="h-news">
+  <div class="sec-h"><h2 id="h-news">News</h2></div>
+  <ul class="news">
+    <li><time datetime="2026-01">2026.01</time><span>…</span></li>
+  </ul>
+</section>
+-->
+
+<!-- ───────── Publications ───────── -->
+<section aria-labelledby="h-pubs">
+  <div class="sec-h"><h2 id="h-pubs">Publications</h2></div>
+
+  <div class="pubs">
+    <article class="paper">
+      <div class="p-body">
+        <div class="p-title"><a href="https://doi.org/10.14778/3796195.3796214">ORBITFLOW: SLO-Aware Long-Context LLM Serving with Fine-Grained KV Cache Reconfiguration</a></div>
+        <div class="authors">Xinyue Ma*, <b>Heelim Hong*</b>, Taegeon Um, Jongseop Lee, Seoyeong Choy, Woo-Yeon Lee, Myeongjae Jeon</div>
+        <div class="venue"><span class="badge">VLDB '26</span><span>Proceedings of the VLDB Endowment, Vol. 19, No. 5</span><span class="note">* equal contribution</span></div>
+        <p class="takeaway">In long-context serving, the KV cache grows with every generated token and the batch keeps changing, so offloading plans fixed ahead of time cannot keep up with GPU memory demand. ORBITFLOW re-plans KV cache placement per request and per layer with a lightweight ILP solver and runtime feedback, raising SLO attainment for TPOT and TBT by up to 66% and 48% and throughput by up to 3.3× over existing offloading methods.</p>
+        <div class="p-links"><a href="https://doi.org/10.14778/3796195.3796214">Paper</a><a href="https://github.com/omnia-postech/OrbitFlow">Code</a></div>
+      </div>
+    </article>
+
+    <article class="paper">
+      <div class="p-body">
+        <div class="p-title"><a href="https://www.vldb.org/pvldb/vol17/p863-kim.pdf">FusionFlow: Accelerating Data Preprocessing for Machine Learning with CPU-GPU Cooperation</a></div>
+        <div class="authors">Taeyoon Kim, ChanHo Park, Mansur Mukimbekov, <b>Heelim Hong</b>, Minseok Kim, Ze Jin, Changdae Kim, Ji-Yong Shin, Myeongjae Jeon</div>
+        <div class="venue"><span class="badge">VLDB '24</span><span>Proceedings of the VLDB Endowment, Vol. 17, No. 4</span></div>
+        <p class="takeaway">Modern data augmentation is expensive enough that CPU-side preprocessing, not the GPU, becomes the training bottleneck. FusionFlow offloads part of each batch's augmentation onto idle GPU cycles without disturbing training, speeding up single-machine training by 16–285% over CPU-only preprocessing with 50–60% fewer CPUs than scaling out.</p>
+        <div class="p-links"><a href="https://www.vldb.org/pvldb/vol17/p863-kim.pdf">Paper</a><a href="https://github.com/omnia-unist/FusionFlow">Code</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ───────── Background ───────── -->
+<div class="two">
+  <section aria-labelledby="h-edu">
+    <div class="sec-h"><h2 id="h-edu">Education</h2></div>
+    <ul class="tl">
+      <li><span class="yr">2021.09 –</span><span class="what"><b>UNIST</b>, Ulsan, Korea<small>Combined M.S./Ph.D., Graduate School of Artificial Intelligence</small></span></li>
+      <li><span class="yr">2015 – 2021</span><span class="what"><b>Chung-Ang University</b>, Seoul, Korea<small>B.S., Department of Integrative Engineering</small></span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-awards" class="col-r">
+    <div class="sec-h"><h2 id="h-awards">Awards</h2></div>
+    <ul class="tl">
+      <li><span class="yr">2015 – 2021</span><span class="what"><b>Da Vinci Scholarship V</b><small>Full-ride scholarship for all semesters, awarded for admission with highest distinction</small></span></li>
+      <li><span class="yr">2020 Fall</span><span class="what"><b>Academic Excellence Scholarship</b></span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-teach">
+    <div class="sec-h"><h2 id="h-teach">Teaching</h2></div>
+    <ul class="tl">
+      <li><span class="yr">2024 Spring</span><span class="what">TA, <b>AI Toolkits</b></span></li>
+      <li><span class="yr">2022 Fall</span><span class="what">TA, <b>Optimizations for AI Systems</b></span></li>
+      <li><span class="yr">2021 Fall</span><span class="what">TA, <b>Computer Architecture</b></span></li>
+    </ul>
+  </section>
+</div>
+
+<footer><span>© 2026 Heelim Hong</span><span class="mono">Last updated: Oct 2026</span></footer>
+</div>
+</body>
+</html>
