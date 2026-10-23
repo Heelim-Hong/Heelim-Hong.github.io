@@ -57,11 +57,13 @@ h1{font-family:var(--f-display);font-size:2.3rem;font-weight:600;letter-spacing:
 .advisor a:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .bio{margin:0}
 .side{display:flex;flex-direction:column;gap:14px;min-width:0}
-.links{display:flex;flex-direction:column;align-items:flex-start;gap:6px;font-size:.9rem}
-.links a,.links .email{display:inline-flex;align-items:center;gap:8px;line-height:1.4}
-.links i{width:16px;text-align:center;font-size:.95rem;flex:none;color:var(--muted)}
-.links a:hover i{color:var(--accent)}
-.links .email{font-family:var(--f-mono);font-size:.8rem;color:var(--fg);user-select:all;margin-bottom:2px}
+.links{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:.9rem}
+.icons{display:flex;gap:18px;align-items:center}
+.icons a{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border:0;color:var(--muted);font-size:1.3rem;line-height:1}
+.icons a:hover{color:var(--accent)}
+.icons a.todo{color:var(--rule)}
+.icons a.todo:hover{color:var(--accent)}
+.links .email{font-family:var(--f-mono);font-size:.8rem;color:var(--fg);user-select:all}
 .links a.todo{color:var(--muted);border-bottom-style:dashed;border-bottom-color:var(--rule)}
 
 /* Section heads */
@@ -119,7 +121,7 @@ footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);paddi
   .intro{grid-template-columns:1fr;gap:18px}
   .avatar{width:130px;font-size:30px}
   .side{flex-direction:row;align-items:flex-end;gap:18px}
-  .links{gap:3px}
+  .links{align-items:flex-start;gap:8px}
   h1{font-size:1.75rem}
   .paper{padding:14px}
   .two{grid-template-columns:1fr}
@@ -139,12 +141,14 @@ footer{color:var(--muted);font-size:.8rem;border-top:1px solid var(--rule);paddi
   <div class="side">
     <div class="avatar"><img src="images/profile.jpg" alt="Heelim Hong"></div>
     <div class="links">
-      <!-- Icons: Font Awesome 6 (fa-*) and Academicons (ai-*). TODO: replace # with real URLs; dashed = placeholder -->
-      <span class="email"><i class="fa-regular fa-envelope" aria-hidden="true"></i>heelim@unist.ac.kr</span>
-      <a class="todo" href="#"><i class="ai ai-cv" aria-hidden="true"></i>CV</a>
-      <a class="todo" href="#"><i class="ai ai-google-scholar" aria-hidden="true"></i>Google Scholar</a>
-      <a href="https://github.com/Heelim-Hong"><i class="fa-brands fa-github" aria-hidden="true"></i>GitHub</a>
-      <a class="todo" href="#"><i class="fa-brands fa-linkedin" aria-hidden="true"></i>LinkedIn</a>
+      <span class="email">heelim@unist.ac.kr</span>
+      <!-- Icon-only row. TODO: replace # with real URLs -->
+      <div class="icons">
+        <a class="todo" href="#" title="CV" aria-label="CV"><i class="ai ai-cv" aria-hidden="true"></i></a>
+        <a class="todo" href="#" title="Google Scholar" aria-label="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a>
+        <a href="https://github.com/Heelim-Hong" title="GitHub" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+        <a class="todo" href="#" title="LinkedIn" aria-label="LinkedIn"><i class="fa-brands fa-linkedin" aria-hidden="true"></i></a>
+      </div>
     </div>
   </div>
   <div class="intro-text">
